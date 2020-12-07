@@ -158,3 +158,4 @@ let Square = (x, y, size, color = 'black') => {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, size, size);
 };
+// 161 строка кода)
