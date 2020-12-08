@@ -16,29 +16,33 @@ let fruit_x;
 let fruit_y;
 let stop_it = 0;
 let tail = [];
+const MOVE_LEFT = 2;
+const MOVE_RIGHT = 1
+const MOVE_UP = -1;
+const MOVE_DOWN = -2;
 
 //обработка событий стрелок
 
 addEventListener('keydown', function (event) {
     switch (event.key) {
         case 'ArrowLeft':
-            if (movement !== 1) {
-                movement = 2;
+            if (movement !== MOVE_RIGHT) {
+                movement = MOVE_LEFT;
             }
             break;
         case 'ArrowRight':
-            if (movement !== 2) {
-                movement = 1;
+            if (movement !== MOVE_LEFT) {
+                movement = MOVE_RIGHT;
             }
             break;
         case 'ArrowUp':
-            if (movement !== -2) {
-                movement = -1;
+            if (movement !== MOVE_DOWN) {
+                movement = MOVE_UP;
             }
             break;
         case 'ArrowDown':
-            if (movement !== -1) {
-                movement = -2;
+            if (movement !== MOVE_UP) {
+                movement = MOVE_DOWN;
             }
             break;
         case 'Enter':
@@ -60,72 +64,48 @@ function Game() {
     Square(new_x, new_y, CELL_SIZE);
     let Timer = setInterval(() => {
         switch (movement) {
-            case 2:
-                new_x -= 1;
-                ctx.clearRect(new_x, new_y, CELL_SIZE, CELL_SIZE);
+            case MOVE_LEFT:
+                ctx.clearRect(--new_x, new_y, CELL_SIZE, CELL_SIZE);
                 Square(new_x, new_y, CELL_SIZE);
-                if (tail.length > 21) {
-                    ctx.clearRect(tail[tail.length - 21 * (total_score + 1)][0], tail[tail.length - 21 * (total_score + 1)][1], CELL_SIZE, CELL_SIZE);
-                    Square(tail[tail.length - 20][0], tail[tail.length - 20][1], CELL_SIZE);
+                if (tail.length > (CELL_SIZE + 1)) {
+                    ctx.clearRect(tail[tail.length - (CELL_SIZE + 1) * (total_score + 1)][0], tail[tail.length - (CELL_SIZE + 1) * (total_score + 1)][1], CELL_SIZE, CELL_SIZE);
+                    Square(tail[tail.length - CELL_SIZE][0], tail[tail.length - CELL_SIZE][1], CELL_SIZE);
                 }
                 console.log(tail[tail.length - 1]);
-                if (IsMatch()) {
-                    total_score++;
-                    score.innerText = 'Score: ' + total_score;
-                    ctx.clearRect(fruit_x, fruit_y, CELL_SIZE, CELL_SIZE);
-                    Fruit();
-                }
+                if (IsMatch()) Then();
                 tail.push([new_x, new_y]);
                 break;
-            case 1:
-                new_x += 1;
-                ctx.clearRect(new_x, new_y, CELL_SIZE, CELL_SIZE);
+            case MOVE_RIGHT:
+                ctx.clearRect(++new_x, new_y, CELL_SIZE, CELL_SIZE);
                 Square(new_x, new_y, CELL_SIZE);
-                if (tail.length > 21) {
-                    ctx.clearRect(tail[tail.length - 21 * (total_score + 1)][0], tail[tail.length - 21 * (total_score + 1)][1], CELL_SIZE, CELL_SIZE);
-                    Square(tail[tail.length - 20][0], tail[tail.length - 20][1], CELL_SIZE);
+                if (tail.length > (CELL_SIZE + 1)) {
+                    ctx.clearRect(tail[tail.length - (CELL_SIZE + 1) * (total_score + 1)][0], tail[tail.length - (CELL_SIZE + 1) * (total_score + 1)][1], CELL_SIZE, CELL_SIZE);
+                    Square(tail[tail.length - CELL_SIZE][0], tail[tail.length - 20][1], CELL_SIZE);
                 }
                 console.log(tail[tail.length - 1]);
-                if (IsMatch()) {
-                    total_score++;
-                    score.innerText = 'Score: ' + total_score;
-                    ctx.clearRect(fruit_x, fruit_y, CELL_SIZE, CELL_SIZE);
-                    Fruit();
-                }
+                if (IsMatch()) Then();
                 tail.push([new_x, new_y]);
                 break;
-            case -1:
-                new_y -= 1;
-                ctx.clearRect(new_x, new_y, CELL_SIZE, CELL_SIZE);
+            case MOVE_UP:
+                ctx.clearRect(new_x, --new_y, CELL_SIZE, CELL_SIZE);
                 Square(new_x, new_y, CELL_SIZE);
-                if (tail.length > 21) {
-                    ctx.clearRect(tail[tail.length - 21 * (total_score + 1)][0], tail[tail.length - 21 * (total_score + 1)][1], CELL_SIZE, CELL_SIZE);
-                    Square(tail[tail.length - 20][0], tail[tail.length - 20][1], CELL_SIZE);
+                if (tail.length > (CELL_SIZE + 1)) {
+                    ctx.clearRect(tail[tail.length - (CELL_SIZE + 1) * (total_score + 1)][0], tail[tail.length - (CELL_SIZE + 1) * (total_score + 1)][1], CELL_SIZE, CELL_SIZE);
+                    Square(tail[tail.length - CELL_SIZE][0], tail[tail.length - CELL_SIZE][1], CELL_SIZE);
                 }
                 console.log(tail[tail.length - 1]);
-                if (IsMatch()) {
-                    total_score++;
-                    score.innerText = 'Score: ' + total_score;
-                    ctx.clearRect(fruit_x, fruit_y, CELL_SIZE, CELL_SIZE);
-                    Fruit();
-                }
+                if (IsMatch()) Then();
                 tail.push([new_x, new_y]);
                 break;
-            case -2:
-                new_y += 1;
-                ctx.clearRect(new_x, new_y, CELL_SIZE, CELL_SIZE);
+            case MOVE_DOWN:
+                ctx.clearRect(new_x, ++new_y, CELL_SIZE, CELL_SIZE);
                 Square(new_x, new_y, CELL_SIZE);
                 if (tail.length > 21) {
-                    ctx.clearRect(tail[tail.length - 21 * (total_score + 1)][0], tail[tail.length - 21 * (total_score + 1)][1], CELL_SIZE, CELL_SIZE);
-                    Square(tail[tail.length - 20][0], tail[tail.length - 20][1], CELL_SIZE);
+                    ctx.clearRect(tail[tail.length - (CELL_SIZE + 1) * (total_score + 1)][0], tail[tail.length - (CELL_SIZE + 1) * (total_score + 1)][1], CELL_SIZE, CELL_SIZE);
+                    Square(tail[tail.length - CELL_SIZE][0], tail[tail.length - CELL_SIZE][1], CELL_SIZE);
                 }
                 console.log(tail[tail.length - 1]);
-                if (IsMatch()) {
-                    total_score++;
-                    score.innerText = 'Score: ' + total_score;
-                    ctx.clearRect(fruit_x, fruit_y, CELL_SIZE, CELL_SIZE);
-                    Fruit();
-                }
+                if (IsMatch()) Then();
                 tail.push([new_x, new_y]);
                 break;
         }
@@ -150,6 +130,13 @@ let Fruit = () => {
     Square(fruit_x, fruit_y, CELL_SIZE, 'green');
 };
 
+let Then = () => {
+    total_score++;
+    score.innerText = 'Score: ' + total_score;
+    ctx.clearRect(fruit_x, fruit_y, CELL_SIZE, CELL_SIZE);
+    Fruit();
+}
+
 let Random_Count = (min, max) => {
     return parseInt(Math.random() * (max - min) + min);
 };
@@ -158,4 +145,3 @@ let Square = (x, y, size, color = 'black') => {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, size, size);
 };
-// 161 строка кода)
