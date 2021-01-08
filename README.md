@@ -1,3 +1,1 @@
-# JS-Snake
-
-Змейка написанная на чистом JS и его канвасе. Множество недоработок, но в целом забавная вещь.
+Snake which written on pure JS and canvas
